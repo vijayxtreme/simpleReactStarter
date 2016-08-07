@@ -5,7 +5,7 @@ import CommentBox from './commentbox';
 export default class App extends Component {
   render() {
     return (
-      <CommentBox url="data.json"/>
+      <CommentBox url="data.json" pollInterval={2000}/>
     );
   }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import jQuery from 'jquery';
+import $ from 'jquery';
 
 import CommentForm from './commentform';
 import CommentList from './commentlist';
@@ -11,9 +11,9 @@ export default class CommentBox extends Component {
 			data:[]
 		}
 	}
-	componentDidMount() {
-		console.log(this.props.url)
-	     jQuery.ajax({
+	loadCommentsFromServer(){
+		console.log(this.props)
+	     $.ajax({
 	     	url:this.props.url,
 	     	dataType:'json',
 	     	cache:false,
@@ -23,7 +23,15 @@ export default class CommentBox extends Component {
 	     	error:function(xhr, status, err){
 	     		console.error(this.props.url, status, err.toString());
 	     	}.bind(this)
-	     }); 
+	     });
+	}
+	componentDidMount() {
+		this.loadCommentsFromServer();
+		//setInterval(this.loadCommentsFromServer.bind(this), this.props.pollInterval);
+		// OR... use a fat arrow, which preserves `this` context
+		//setInterval(() => this.loadCommentsFromServer(), this.props.pollInterval); 
+
+		setInterval(() => this.loadCommentsFromServer(), this.props.pollInterval)
 	}
 	render(){
 		return (
